@@ -1,4 +1,4 @@
-export default function Ship(length) {
+function Ship(length) {
     let hitArray = Array(length).fill(false);
     function hit(position){
         hitArray[position]=true;
@@ -11,5 +11,13 @@ export default function Ship(length) {
         }
         return true;
     }
+    function getLength(){
+        return length;
+    }
+    return{        
+        getLength,
+        hit,
+        isSunk,        
+    }
 }
-Ship();
+module.exports = Ship;
