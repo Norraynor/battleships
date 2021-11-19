@@ -1,29 +1,54 @@
 function Gameboard(x,y) {
     const ship = require("./Ship");
     const board = createGameboard(x,y);
-    let shipBoard = board;
-    let hitBoard = board;
+    let shipBoard= JSON.parse(JSON.stringify(board));
+    let hitBoard = JSON.parse(JSON.stringify(board));
 
     function createGameboard(x=0,y=0){
         let innerArr = new Array(y).fill(0);
         let arr = new Array(x).fill(innerArr);
         return arr;
     }
-    function getGameboard(){
+    /*function getGameboard(){
         const gameboard = createGameboard(x,y);
         return gameboard;
-    }
-    function placeShip(a,b){
+    }*/
+    function placeShip(a,b, ship=null, vertical = false){
+        //needs position checking (checks if item is not already taken by other ship)
+        console.log({board,shipBoard,ship});
+        console.log(ship.getLength());
+        if(isValidCoords(a,b)){
+            if(vertical){
+                if(isValidCoords(a+ship.getLength()-1,b)){
+                    for(let i=0;i<ship.getLength();i++){
+                        shipBoard[a+i][b]="ship";
+                    }
+                }
+            }else{
+                if(isValidCoords(a,b+ship.getLength()-1)){
+                    for(let i=0;i<ship.getLength();i++){
+                        shipBoard[a][b+i]="ship";
+                    }
+                }
+            }            
+            console.log({board,shipBoard});
+            return console.log("placed ship");
+        }
+        console.log("wrong coords");
+
         //create ship at given location
         //check if location is valid
     }
     function placeHit(a,b){
     }
     function isValidCoords(a,b){
-        if(a<board.length || b<board[0].length){
-            return true;
+        if(a>board.length-1 || b>board.length-1){
+            return false;
         }
-        return false;
+        return true;
+    }
+    function isPositionValid(a,b){
+        
     }
     function getShipGameboard(){
         return shipBoard;
