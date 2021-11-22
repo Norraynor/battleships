@@ -1,7 +1,9 @@
 function Ship(length) {
     let hitArray = Array(length).fill(false);
-    function hit(position){
-        hitArray[position]=true;
+    let i = 0;
+    function hit(){
+        hitArray[i]=true;
+        i++;
     }
     function isSunk(){
         for(let i=0; i<hitArray.length;i++){

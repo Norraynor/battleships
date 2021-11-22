@@ -1,3 +1,5 @@
+const EMPTY_SPACE = 0;
+
 function Gameboard(x,y) {
     const ship = require("./Ship");
     const board = createGameboard(x,y);
@@ -5,7 +7,7 @@ function Gameboard(x,y) {
     let hitBoard = JSON.parse(JSON.stringify(board));
 
     function createGameboard(x=0,y=0){
-        let innerArr = new Array(y).fill(0);
+        let innerArr = new Array(y).fill(EMPTY_SPACE);
         let arr = new Array(x).fill(innerArr);
         return arr;
     }
@@ -14,21 +16,32 @@ function Gameboard(x,y) {
         return gameboard;
     }*/
     function placeShip(a,b, ship=null, vertical = false){
-        //needs position checking (checks if item is not already taken by other ship)
         console.log({board,shipBoard,ship});
         console.log(ship.getLength());
-        if(isValidCoords(a,b)){
+        if(isPositionValid(a,b)){
             if(vertical){
-                if(isValidCoords(a+ship.getLength()-1,b)){
+                if(isPositionValid(a+ship.getLength()-1,b)){
                     for(let i=0;i<ship.getLength();i++){
-                        shipBoard[a+i][b]="ship";
+                        if(ship===null){
+                            shipBoard[a+i][b]="ship";
+                        }else{
+                            shipBoard[a+i][b]=ship;
+                        }
                     }
+                }else{
+                    console.log("ship too long")
                 }
             }else{
-                if(isValidCoords(a,b+ship.getLength()-1)){
+                if(isPositionValid(a,b+ship.getLength()-1)){
                     for(let i=0;i<ship.getLength();i++){
-                        shipBoard[a][b+i]="ship";
+                        if(ship===null){
+                            shipBoard[a][b+i]="ship";
+                        }else{
+                            shipBoard[a][b+i]=ship;
+                        }
                     }
+                }else{
+                    console.log("ship too long")
                 }
             }            
             console.log({board,shipBoard});
@@ -40,6 +53,7 @@ function Gameboard(x,y) {
         //check if location is valid
     }
     function placeHit(a,b){
+        shipBoard[a][b].hit();
     }
     function isValidCoords(a,b){
         if(a>board.length-1 || b>board.length-1){
@@ -47,8 +61,18 @@ function Gameboard(x,y) {
         }
         return true;
     }
+    function getPlacedShips(){
+        let objArr = [];
+        for(let i=0;i<x;i++){
+            objArr.push(...(shipBoard[i].filter(obj=> typeof obj==='object')))
+        }
+        return objArr;
+    }
     function isPositionValid(a,b){
-        
+        if(isValidCoords(a,b) && shipBoard[a][b] === EMPTY_SPACE){
+            return true;
+        }
+        return false;
     }
     function getShipGameboard(){
         return shipBoard;
@@ -63,7 +87,8 @@ function Gameboard(x,y) {
         isValidCoords,
         placeShip,
         placeHit,
-        getShipGameboard
+        getShipGameboard,
+        getPlacedShips
     }
 }
 module.exports = Gameboard;
