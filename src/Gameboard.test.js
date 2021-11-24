@@ -21,43 +21,52 @@ beforeEach(()=>{
     shipGameboard = gameboard(3,3);
 })
 test('ship placement horizontal',()=>{
-    shipGameboard.placeShip(1,1,ship(2),false);
-    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,"ship","ship"],[0,0,0]])
+    let newS = ship(2);
+    shipGameboard.placeShip(1,1,newS,false);
+    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,newS,newS],[0,0,0]])
 })
 test('ship placement vertical',()=>{
-    shipGameboard.placeShip(1,1,ship(2),true);
-    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,"ship",0],[0,"ship",0]])
+    let newS = ship(2);
+    shipGameboard.placeShip(1,1,newS,true);
+    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,newS,0],[0,newS,0]])
 })
 test('2nd ship placement on taken tile',()=>{
-    shipGameboard.placeShip(1,1,ship(2),false);
-    shipGameboard.placeShip(1,1,ship(2),true);
-    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,"ship","ship"],[0,0,0]])
+    let newS = ship(2);
+    shipGameboard.placeShip(1,1,newS,false);
+    shipGameboard.placeShip(1,1,newS,true);
+    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,newS,newS],[0,0,0]])
 })
 test('2nd ship placement on free tile',()=>{
-    shipGameboard.placeShip(1,1,ship(2),false);
-    shipGameboard.placeShip(0,1,ship(2),false);
-    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,"ship","ship"],[0,"ship","ship"],[0,0,0]])
+    let newS = ship(2);
+    shipGameboard.placeShip(1,1,newS,false);
+    shipGameboard.placeShip(0,1,newS,false);
+    expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,newS,newS],[0,newS,newS],[0,0,0]])
 })
 test('ship placement horizontal too long ship',()=>{
-    shipGameboard.placeShip(1,1,ship(3),false);
+    let newS = ship(3);
+    shipGameboard.placeShip(1,1,newS,false);
     expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,0,0],[0,0,0]])
 })
 test('ship placement vertical too long ship',()=>{
-    shipGameboard.placeShip(1,1,ship(3),true);
+    let newS = ship(3);
+    shipGameboard.placeShip(1,1,newS,true);
     expect(shipGameboard.getShipGameboard()).toStrictEqual([[0,0,0],[0,0,0],[0,0,0]])
 })
 test('ship placement horizontal longer ship with valid coords',()=>{
-    shipGameboard.placeShip(0,0,ship(3),false);
-    expect(shipGameboard.getShipGameboard()).toStrictEqual([["ship","ship","ship"],[0,0,0],[0,0,0]])
+    let newS = ship(3);
+    shipGameboard.placeShip(0,0,newS,false);
+    expect(shipGameboard.getShipGameboard()).toStrictEqual([[newS,newS,newS],[0,0,0],[0,0,0]])
 })
 test('ship placement vertical longer ship with valid coords',()=>{
-    shipGameboard.placeShip(0,0,ship(3),true);
-    expect(shipGameboard.getShipGameboard()).toStrictEqual([["ship",0,0],["ship",0,0],["ship",0,0]])
+    let newS = ship(3);
+    shipGameboard.placeShip(0,0,newS,true);
+    expect(shipGameboard.getShipGameboard()).toStrictEqual([[newS,0,0],[newS,0,0],[newS,0,0]])
 })
 test('ship placement horizontal longer ship with valid coords and invalid second one',()=>{
-    shipGameboard.placeShip(0,0,ship(3),false);
-    shipGameboard.placeShip(0,0,ship(3),true);
-    expect(shipGameboard.getShipGameboard()).toStrictEqual([["ship","ship","ship"],[0,0,0],[0,0,0]])
+    let newS = ship(3);
+    shipGameboard.placeShip(0,0,newS,false);
+    shipGameboard.placeShip(0,0,newS,true);
+    expect(shipGameboard.getShipGameboard()).toStrictEqual([[newS,newS,newS],[0,0,0],[0,0,0]])
 })
 test('ship placement with object Ship',()=>{
     let newShip = ship(2);
@@ -95,11 +104,46 @@ test('ships placed array with 3 ship of length 2',()=>{
     shipGameboard.placeShip(1,2,newShip,true);
     expect(shipGameboard.getPlacedShips().length).toBe(6)
 })
-test.only('ships placed array with 4 ship of length 2 but failing once',()=>{
+test('ships placed array with 4 ship of length 2 but failing once',()=>{
     let newShip = ship(2);
     shipGameboard.placeShip(0,0,newShip,false);
     shipGameboard.placeShip(2,0,newShip,false);
     shipGameboard.placeShip(1,2,newShip,true);
     shipGameboard.placeShip(1,1,newShip,true);
     expect(shipGameboard.getPlacedShips().length).toBe(6)
+})
+test('check all ships sunk to be false',()=>{
+    let newS = ship(2);
+    let newSh = ship(2);
+    shipGameboard.placeShip(0,0,newS,false);
+    shipGameboard.placeShip(1,0,newSh,false);
+    expect(shipGameboard.checkAllShipsSunk()).toBe(false);
+})
+test('check all ships sunk to be true',()=>{
+    let newS = ship(2);
+    let newSh = ship(2);
+    shipGameboard.placeShip(0,0,newS,false);
+    shipGameboard.placeShip(1,0,newSh,false);
+    shipGameboard.placeHit(0,0);
+    shipGameboard.placeHit(0,1);
+    shipGameboard.placeHit(1,0);
+    shipGameboard.placeHit(1,1);
+    expect(shipGameboard.checkAllShipsSunk()).toBe(true);
+})
+test('check hit gameboard with 1 hit',()=>{
+    shipGameboard.placeHit(0,0);
+    expect(shipGameboard.getHitGameboard()).toStrictEqual([["x",0,0],[0,0,0],[0,0,0]])
+})
+test('check hit gameboard with 1 hit and ship placed',()=>{
+    let newS = ship(2);
+    shipGameboard.placeShip(0,0,newS,false);
+    shipGameboard.placeHit(0,0);
+    expect(shipGameboard.getHitGameboard()).toStrictEqual([["x",0,0],[0,0,0],[0,0,0]])
+})
+test('check hit gameboard with 2 hit and long ship placed',()=>{
+    let newS = ship(3);
+    shipGameboard.placeShip(0,0,newS,false);
+    shipGameboard.placeHit(0,0);
+    shipGameboard.placeHit(0,2);
+    expect(shipGameboard.getHitGameboard()).toStrictEqual([["x",0,"x"],[0,0,0],[0,0,0]])
 })

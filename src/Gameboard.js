@@ -1,4 +1,5 @@
 const EMPTY_SPACE = 0;
+const HIT ="x";
 
 function Gameboard(x,y) {
     const ship = require("./Ship");
@@ -11,13 +12,7 @@ function Gameboard(x,y) {
         let arr = new Array(x).fill(innerArr);
         return arr;
     }
-    /*function getGameboard(){
-        const gameboard = createGameboard(x,y);
-        return gameboard;
-    }*/
     function placeShip(a,b, ship=null, vertical = false){
-        console.log({board,shipBoard,ship});
-        console.log(ship.getLength());
         if(isPositionValid(a,b)){
             if(vertical){
                 if(isPositionValid(a+ship.getLength()-1,b)){
@@ -48,12 +43,17 @@ function Gameboard(x,y) {
             return console.log("placed ship");
         }
         console.log("wrong coords");
-
-        //create ship at given location
-        //check if location is valid
     }
     function placeHit(a,b){
-        shipBoard[a][b].hit();
+        if(hitBoard[a][b]!== HIT){
+            if(typeof shipBoard[a][b] === 'object'){
+                shipBoard[a][b].hit();
+            }
+            hitBoard[a][b] = HIT;
+        }
+        else{
+            console.log("place already hit");
+        }
     }
     function isValidCoords(a,b){
         if(a>board.length-1 || b>board.length-1){
@@ -68,6 +68,15 @@ function Gameboard(x,y) {
         }
         return objArr;
     }
+    function checkAllShipsSunk(){
+        const shipsArr = getPlacedShips();
+        for(let i=0;i<shipsArr.length;i++){
+            if(!shipsArr[i].isSunk()){
+                return false;
+            }
+        }
+        return true;
+    }
     function isPositionValid(a,b){
         if(isValidCoords(a,b) && shipBoard[a][b] === EMPTY_SPACE){
             return true;
@@ -77,10 +86,9 @@ function Gameboard(x,y) {
     function getShipGameboard(){
         return shipBoard;
     }
-    //isShipPositionValid -- check if position is in grid and empty(no other ship in this elements)
-    //placeShip -- place ship if valid position
-    //receiveAttack --take coords and check if hit or miss || if hit then inform that Ship and record hit or miss position
-    //check if all ships has been sunk
+    function getHitGameboard(){
+        return hitBoard;
+    }
 
     return {
         gameboard: board,
@@ -88,7 +96,9 @@ function Gameboard(x,y) {
         placeShip,
         placeHit,
         getShipGameboard,
-        getPlacedShips
+        getPlacedShips,
+        checkAllShipsSunk,
+        getHitGameboard
     }
 }
 module.exports = Gameboard;
