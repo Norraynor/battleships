@@ -1,9 +1,13 @@
 const gameboard = require("./Gameboard");
 const ship = require("./Ship");
 let shipGameboard = gameboard(3,3);
+let shipGameboardV2 = gameboard(3);
 
 test('gameboard creation',()=>{
     expect(shipGameboard.gameboard).toStrictEqual([[0,0,0],[0,0,0],[0,0,0]]);
+})
+test('gameboard creation v2',()=>{
+    expect(shipGameboardV2.gameboard).toStrictEqual([[0,0,0],[0,0,0],[0,0,0]]);
 })
 test('coords validation 1',()=>{
     expect(shipGameboard.isValidCoords(0,0)).toBe(true);
@@ -146,4 +150,7 @@ test('check hit gameboard with 2 hit and long ship placed',()=>{
     shipGameboard.placeHit(0,0);
     shipGameboard.placeHit(0,2);
     expect(shipGameboard.getHitGameboard()).toStrictEqual([["x",0,"x"],[0,0,0],[0,0,0]])
+})
+test('check all empty coords to be empty',()=>{
+    expect(gameboard(2,2).getEmptyHitCoords()).toStrictEqual([[0,0],[0,1],[1,0],[1,1]]);
 })

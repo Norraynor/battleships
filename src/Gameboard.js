@@ -1,7 +1,10 @@
 const EMPTY_SPACE = 0;
 const HIT ="x";
 
-function Gameboard(x,y) {
+function Gameboard(x,y=null) {
+    if(y===null){
+        y=x;
+    }
     const ship = require("./Ship");
     const board = createGameboard(x,y);
     let shipBoard= JSON.parse(JSON.stringify(board));
@@ -23,8 +26,10 @@ function Gameboard(x,y) {
                             shipBoard[a+i][b]=ship;
                         }
                     }
+                    return true;
                 }else{
-                    console.log("ship too long")
+                    console.log("ship too long");
+                    return false;
                 }
             }else{
                 if(isPositionValid(a,b+ship.getLength()-1)){
@@ -35,8 +40,10 @@ function Gameboard(x,y) {
                             shipBoard[a][b+i]=ship;
                         }
                     }
+                    return true;
                 }else{
-                    console.log("ship too long")
+                    console.log("ship too long");
+                    return false;
                 }
             }            
             console.log({board,shipBoard});
@@ -50,9 +57,11 @@ function Gameboard(x,y) {
                 shipBoard[a][b].hit();
             }
             hitBoard[a][b] = HIT;
+            return true;
         }
         else{
             console.log("place already hit");
+            return false;
         }
     }
     function isValidCoords(a,b){
@@ -89,6 +98,17 @@ function Gameboard(x,y) {
     function getHitGameboard(){
         return hitBoard;
     }
+    function getEmptyHitCoords(){
+        let arr =[];
+        for(let i = 0;i<hitBoard.length;i++){
+            for(let j = 0;j<hitBoard[0].length;j++){
+                if(hitBoard[i][j] !== HIT){
+                    arr.push([i,j]);
+                }
+            }
+        }
+        return arr;
+    }
 
     return {
         gameboard: board,
@@ -98,7 +118,8 @@ function Gameboard(x,y) {
         getShipGameboard,
         getPlacedShips,
         checkAllShipsSunk,
-        getHitGameboard
+        getHitGameboard,
+        getEmptyHitCoords
     }
 }
 module.exports = Gameboard;

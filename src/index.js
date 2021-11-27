@@ -2,6 +2,7 @@ import _ from 'lodash';
 import './style.css';
 import printMe from './print';
 import Ship from './Ship';
+import DOMHandler from './DOMHandler';
 
 function component() {
     const element = document.createElement('div');
@@ -14,7 +15,10 @@ function component() {
     btn.innerHTML = 'Click me and check the console!';
     btn.onclick = printMe;
 
+
     element.appendChild(btn);
+
+    //element.appendChild(DOMHandler(5).createGameboard("hit","mee"))
 
     return element;
   }
