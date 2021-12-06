@@ -7,7 +7,7 @@
   height: 500px;
   background-color: aqua;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   place-items: center;
   place-content: center;
 }
@@ -16,13 +16,18 @@
   width:200px;
   height: 200px;
   background-color: pink;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
   place-items: center;
   place-content: stretch;
 }
 .gameboard-item{
-  width:90px;
-  height:90px;
+  width:40px;
+  height:40px;
+  border-style: solid;
+  border-width: 2px;
+  box-sizing: border-box;
+}
+.gameboard-item:hover{
   background-color: green;
 }
