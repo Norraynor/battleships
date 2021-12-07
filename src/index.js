@@ -3,6 +3,9 @@ import './style.css';
 import printMe from './print';
 import Ship from './Ship';
 import DOMHandler from './DOMHandler';
+import Player from './Player';
+import Gameboard from './Gameboard';
+const size = 5;
 
 function component() {
     const element = document.createElement('div');
@@ -17,12 +20,15 @@ function component() {
     btn.innerHTML = 'Click me and check the console!';
     btn.onclick = printMe;
 
+    const player = Player(Gameboard(size));
+    const computer = Player(Gameboard(size));
+    player.templateShipsPopulate(player.getGameboard().getShipGameboard());
 
     element.appendChild(btn);
-    const shipGameboard = DOMHandler(5).createGameboard("ship","mee");
-    const hitGameboard = DOMHandler(5).createGameboard("hit","mee");
-    const cShipGameboard = DOMHandler(5).createGameboard("ship","enemy");
-    const cHitGameboard = DOMHandler(5).createGameboard("hit","enemy");
+    const shipGameboard = DOMHandler(size).createGameboard("ship",player);
+    const hitGameboard = DOMHandler(size).createGameboard("hit",player);
+    const cShipGameboard = DOMHandler(size).createGameboard("ship",computer);
+    const cHitGameboard = DOMHandler(size).createGameboard("hit",computer);
     container.appendChild(shipGameboard);
     container.appendChild(hitGameboard);
     container.appendChild(cShipGameboard);

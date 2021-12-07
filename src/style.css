@@ -31,3 +31,9 @@
 .gameboard-item:hover{
   background-color: green;
 }
+.ship{
+  background-color:brown
+}
+.hit{
+  background-color: gray;
+}

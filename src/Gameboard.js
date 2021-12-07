@@ -15,6 +15,7 @@ function Gameboard(x,y=null) {
         let arr = new Array(x).fill(innerArr);
         return arr;
     }
+    
     function placeShip(a,b, ship=null, vertical = false){
         if(isPositionValid(a,b)){
             if(vertical){
@@ -119,7 +120,7 @@ function Gameboard(x,y=null) {
         getPlacedShips,
         checkAllShipsSunk,
         getHitGameboard,
-        getEmptyHitCoords
+        getEmptyHitCoords,
     }
 }
 module.exports = Gameboard;
