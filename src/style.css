@@ -20,6 +20,9 @@
   grid-template-rows: repeat(5, 1fr);
   place-items: center;
   place-content: stretch;
+  border-style: solid;
+  border-width: 2px;
+  border-color: yellow;
 }
 .gameboard-item{
   width:40px;
@@ -36,4 +39,10 @@
 }
 .hit{
   background-color: gray;
+}
+.player{
+  color:rgb(9, 247, 9)
+}
+.computer{
+  color:rgb(134, 2, 2)
 }

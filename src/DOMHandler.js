@@ -1,4 +1,6 @@
 function DOMHandler(gameboardSize){
+    //add something to show that ship is hit and sunk
+    //something to notify all ships destroyed
     function createGameboard(type,owner){
         const gameboard = document.createElement("div");
         gameboard.className = "gameboard";
@@ -17,11 +19,16 @@ function DOMHandler(gameboardSize){
                     gItem.attributes.ship = owner.getGameboard().getHitGameboard()[i][j]
                     gItem.classList.add("hit");
                 }
-                gItem.addEventListener("click",()=>{
+                gItem.addEventListener("click",(event)=>{
+                    console.log(event);
                     console.log({gItem,gameboard});
                     //here it should mark hit and record it on gameboard
                     owner.getGameboard().placeHit(gItem.id[0],gItem.id[1]);
                     refreshGameboard(i,j,owner,type);
+                    event.target.dispatchEvent(new Event('refresh',{
+                        bubbles:true,
+                        cancelable:true
+                    }));
                 })
                 gameboard.appendChild(gItem);
             }
@@ -39,10 +46,9 @@ function DOMHandler(gameboardSize){
         for(let i = 0;i<parent.length;i++){
             if(parent[i].owner===owner){
                 if(parent[i].type === type){
-                    console.log(parent[i]);
                     const gridElement = parent[i].querySelector(`#${CSS.escape(newId)}`);
                     //const gridElement = parent[i].getElementsById(`${a}${b}`);
-                    console.log(gridElement);
+                    console.log(gridElement.id);
                 }
             }
         }

@@ -6,6 +6,9 @@ import DOMHandler from './DOMHandler';
 import Player from './Player';
 import Gameboard from './Gameboard';
 const size = 5;
+const player = Player(Gameboard(size));
+const computer = Player(Gameboard(size));
+
 
 function component() {
     const element = document.createElement('div');
@@ -20,22 +23,37 @@ function component() {
     btn.innerHTML = 'Click me and check the console!';
     btn.onclick = printMe;
 
-    const player = Player(Gameboard(size));
-    const computer = Player(Gameboard(size));
     player.templateShipsPopulate(player.getGameboard().getShipGameboard());
+    computer.templateShipsPopulate(computer.getGameboard().getShipGameboard());
 
     element.appendChild(btn);
-    const shipGameboard = DOMHandler(size).createGameboard("ship",player);
-    const hitGameboard = DOMHandler(size).createGameboard("hit",player);
-    const cShipGameboard = DOMHandler(size).createGameboard("ship",computer);
-    const cHitGameboard = DOMHandler(size).createGameboard("hit",computer);
-    container.appendChild(shipGameboard);
-    container.appendChild(hitGameboard);
-    container.appendChild(cShipGameboard);
-    container.appendChild(cHitGameboard);
-    element.appendChild(container);
-
+    //refresh?
+    refresh(element,container);
+    //end refresh?
+    element.addEventListener('refresh',(e)=>{
+      refresh(element,container);
+    })
     return element;
+  }
+
+  function refresh(element,container){
+    if(element.contains(container)){
+      element.removeChild(container);
+    }
+    container.textContent="";
+    const shipGameboard = DOMHandler(size).createGameboard("ship",player);
+    shipGameboard.classList.add("player");
+    const hitGameboard = DOMHandler(size).createGameboard("hit",player);
+    hitGameboard.classList.add("player");
+    const cShipGameboard = DOMHandler(size).createGameboard("ship",computer);
+    cShipGameboard.classList.add("computer");
+    const cHitGameboard = DOMHandler(size).createGameboard("hit",computer);
+    cHitGameboard.classList.add("computer");
+    container.appendChild(shipGameboard);
+    container.appendChild(cHitGameboard);
+    container.appendChild(cShipGameboard);
+    container.appendChild(hitGameboard);
+    element.appendChild(container);
   }
   
   document.body.appendChild(component());
