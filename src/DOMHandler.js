@@ -24,11 +24,15 @@ function DOMHandler(gameboardSize){
                     console.log({gItem,gameboard});
                     //here it should mark hit and record it on gameboard
                     owner.getGameboard().placeHit(gItem.id[0],gItem.id[1]);
-                    refreshGameboard(i,j,owner,type);
+                    //refreshGameboard(i,j,owner,type);
                     event.target.dispatchEvent(new Event('refresh',{
                         bubbles:true,
                         cancelable:true
                     }));
+                    /*event.target.dispatchEvent(new Event('turn',{
+                        bubbles:true,
+                        cancelable:true
+                    }));*/
                 })
                 gameboard.appendChild(gItem);
             }

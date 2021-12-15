@@ -12,19 +12,34 @@ function Player(gameboard){
             gameboard.placeHit(x,y);
         }
     }
-    function computerAttack(){
-        if(turn){
-            //select random from array of coordinates
-            randomCoords = gameboard.getEmptyHitCoords()[Math.floor(Math.random()*getEmptyHitCoords().length)];
-            //do attack on random coords
+    function computerAttack(event){
+        //select random from array of coordinates
+        randomCoords = gameboard.getEmptyHitCoords()[Math.floor(Math.random()*gameboard.getEmptyHitCoords().length)];
+        //do attack on random coords
+        if(randomCoords){
             gameboard.placeHit(randomCoords[0],randomCoords[1]);
         }
+        else{
+            console.log("no more moves")
+        }
+        
+        event.target.dispatchEvent(new Event('refresh',{
+            bubbles:true,
+            cancelable:true
+        }));
+        /*event.target.dispatchEvent(new Event('turn',{
+            bubbles:true,
+            cancelable:true
+        }));*/
     }
     function getGameboard(){
         return gameboard;
     }
     function setTurn(newTurn){
         return turn = newTurn;
+    }
+    function getTurn(){
+        return turn;
     }
     function templateShipsPopulate(){
         const size2 = ship(2);
@@ -42,7 +57,8 @@ function Player(gameboard){
         computerAttack,
         getGameboard,
         setTurn,
-        templateShipsPopulate
+        templateShipsPopulate,
+        getTurn
     }
 }
 module.exports = Player;

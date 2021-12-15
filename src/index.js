@@ -8,6 +8,7 @@ import Gameboard from './Gameboard';
 const size = 5;
 const player = Player(Gameboard(size));
 const computer = Player(Gameboard(size));
+let turn = false; //false = player turn || true = computer turn
 
 
 function component() {
@@ -21,7 +22,13 @@ function component() {
     element.classList.add('hello');
 
     btn.innerHTML = 'Click me and check the console!';
-    btn.onclick = printMe;
+    //btn.onclick = printMe;
+    /*btn.addEventListener("click",(event)=>{
+      event.target.dispatchEvent(new Event('refresh',{
+        bubbles:true,
+        cancelable:true
+    }));
+    })*/
 
     player.templateShipsPopulate(player.getGameboard().getShipGameboard());
     computer.templateShipsPopulate(computer.getGameboard().getShipGameboard());
@@ -31,9 +38,26 @@ function component() {
     refresh(element,container);
     //end refresh?
     element.addEventListener('refresh',(e)=>{
+      console.log("turn: " + turn)
+      changeTurn();
+      console.log("turn: " + turn)
+      if(turn){
+        player.computerAttack(e);
+      }
       refresh(element,container);
     })
+    /*element.addEventListener('turn',(e)=>{
+      console.log("turn: " + turn)
+      changeTurn();
+      console.log("turn: " + turn)
+      if(turn){
+        player.computerAttack(e);
+      }
+    })*/
     return element;
+  }
+  function changeTurn(){    
+      turn = !turn;
   }
 
   function refresh(element,container){
