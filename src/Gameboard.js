@@ -15,7 +15,7 @@ function Gameboard(x,y=null) {
         let arr = new Array(x).fill(innerArr);
         return arr;
     }
-    
+    //need to fix placement issues where it doesnt check all the tiles on the way
     function placeShip(a,b, ship=null, vertical = false){
         if(isPositionValid(a,b)){
             if(vertical){
@@ -110,6 +110,17 @@ function Gameboard(x,y=null) {
         }
         return arr;
     }
+    function getEmptyShipCoords(){
+        let arr =[];
+        for(let i = 0;i<shipBoard.length;i++){
+            for(let j = 0;j<shipBoard[0].length;j++){
+                if(shipBoard[i][j] !== HIT){
+                    arr.push([i,j]);
+                }
+            }
+        }
+        return arr;
+    }
 
     return {
         gameboard: board,
@@ -121,6 +132,7 @@ function Gameboard(x,y=null) {
         checkAllShipsSunk,
         getHitGameboard,
         getEmptyHitCoords,
+        getEmptyShipCoords
     }
 }
 module.exports = Gameboard;

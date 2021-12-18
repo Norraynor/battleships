@@ -37,7 +37,7 @@
 .ship{
   background-color:brown
 }
-.hit{
+.hitf{
   background-color: gray;
 }
 .player{
@@ -45,4 +45,10 @@
 }
 .computer{
   color:rgb(134, 2, 2)
+}
+.hits{
+  background-color: rgb(115, 172, 115);
+}
+.hitsunk{
+  background-color: rgb(187, 8, 8);
 }

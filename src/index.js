@@ -9,6 +9,7 @@ const size = 5;
 const player = Player(Gameboard(size));
 const computer = Player(Gameboard(size));
 let turn = false; //false = player turn || true = computer turn
+let gameInProgress = true;
 
 
 function component() {
@@ -31,20 +32,31 @@ function component() {
     })*/
 
     player.templateShipsPopulate(player.getGameboard().getShipGameboard());
-    computer.templateShipsPopulate(computer.getGameboard().getShipGameboard());
+    computer.randomizeShipsPopulate(computer.getGameboard().getShipGameboard());
 
     element.appendChild(btn);
     //refresh?
     refresh(element,container);
     //end refresh?
     element.addEventListener('refresh',(e)=>{
-      console.log("turn: " + turn)
-      changeTurn();
-      console.log("turn: " + turn)
-      if(turn){
-        player.computerAttack(e);
+      if(gameInProgress){
+        if(player.getGameboard().checkAllShipsSunk()){
+          console.log("player lost");
+          gameInProgress=false;
+        }else if(computer.getGameboard().checkAllShipsSunk()){
+          console.log("computer lost");
+          gameInProgress=false;
+        }
+        console.log("turn: " + turn)
+        changeTurn();
+        console.log("turn: " + turn)
+        if(turn){
+          player.computerAttack(e);
+        }
+        refresh(element,container);
+      }else{
+        console.log("game finished");
       }
-      refresh(element,container);
     })
     /*element.addEventListener('turn',(e)=>{
       console.log("turn: " + turn)

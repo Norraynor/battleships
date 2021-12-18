@@ -17,7 +17,14 @@ function DOMHandler(gameboardSize){
                 }
                 if(owner.getGameboard().getHitGameboard()[i][j] !== 0 && type!=="ship" && !gItem.classList.contains("hit")){
                     gItem.attributes.ship = owner.getGameboard().getHitGameboard()[i][j]
-                    gItem.classList.add("hit");
+                    if(owner.getGameboard().getShipGameboard()[i][j] === 0){
+                        gItem.classList.add("hitf");
+                    }else{
+                        if(owner.getGameboard().getShipGameboard()[i][j].isSunk()){
+                            gItem.classList.add("hitsunk");
+                        }
+                        gItem.classList.add("hits");
+                    }
                 }
                 gItem.addEventListener("click",(event)=>{
                     console.log(event);
@@ -25,10 +32,12 @@ function DOMHandler(gameboardSize){
                     //here it should mark hit and record it on gameboard
                     owner.getGameboard().placeHit(gItem.id[0],gItem.id[1]);
                     //refreshGameboard(i,j,owner,type);
-                    event.target.dispatchEvent(new Event('refresh',{
-                        bubbles:true,
-                        cancelable:true
-                    }));
+                    if(!event.target.classList.contains("hit")){
+                        event.target.dispatchEvent(new Event('refresh',{
+                            bubbles:true,
+                            cancelable:true
+                        }));
+                    }
                     /*event.target.dispatchEvent(new Event('turn',{
                         bubbles:true,
                         cancelable:true
