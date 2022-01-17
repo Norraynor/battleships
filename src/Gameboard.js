@@ -15,7 +15,27 @@ function Gameboard(x,y=null) {
         let arr = new Array(x).fill(innerArr);
         return arr;
     }
-    function isPlacementValid(a1,b1,a2,b2,vertical){
+    function isPlacementValid(a,b,length,vertical){
+        if(vertical){
+            for(let i=0;i<length;i++){
+                if(!isPositionValid(a+i,b)){
+                    console.log("not valid position")
+                    return false;
+                }
+            }
+            return true;
+        }
+        else{
+            for(let i=0;i<length;i++){
+                if(!isPositionValid(a,b+i)){
+                    console.log("not valid position")
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    /*function isPlacementValid(a1,b1,a2,b2,vertical){
         console.log("checking placement",{a1,a2,b1,b2});
         if(!vertical){
             //check starting pos
@@ -47,10 +67,11 @@ function Gameboard(x,y=null) {
             }
         }
         return false;
-    }
+    }*/
+
     //need to fix placement issues where it doesnt check all the tiles on the way
     function placeShip(a,b, ship=null, vertical = false){
-        console.log(isPlacementValid(a,b,a+ship.getLength()-1,b+ship.getLength()-1,vertical))
+        console.log(isPlacementValid(a,b,ship.getLength(),vertical))
         /*if(vertical){
             if(isPlacementValid(a,b,a+ship.getLength()-1,b),vertical){
                 for(let i=0;i<ship.getLength();i++){
@@ -76,7 +97,7 @@ function Gameboard(x,y=null) {
         if(isPositionValid(a,b)){
             if(vertical){
                 if(isPositionValid(a+ship.getLength()-1,b)){
-                    if(isPlacementValid(a,b,a+ship.getLength()-1,b),vertical){
+                    if(isPlacementValid(a,b,ship.getLength(),vertical)){
                         for(let i=0;i<ship.getLength();i++){
                             if(ship===null){
                                 shipBoard[a+i][b]="ship";
@@ -92,7 +113,7 @@ function Gameboard(x,y=null) {
                 }
             }else{
                 if(isPositionValid(a,b+ship.getLength()-1)){
-                    if(isPlacementValid(a,b,a,b+ship.getLength()-1),vertical){
+                    if(isPlacementValid(a,b,ship.getLength(),vertical)){
                         for(let i=0;i<ship.getLength();i++){
                             if(ship===null){
                                 shipBoard[a][b+i]="ship";
