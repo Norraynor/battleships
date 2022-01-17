@@ -19,7 +19,6 @@ function Gameboard(x,y=null) {
         if(vertical){
             for(let i=0;i<length;i++){
                 if(!isPositionValid(a+i,b)){
-                    console.log("not valid position")
                     return false;
                 }
             }
@@ -28,7 +27,6 @@ function Gameboard(x,y=null) {
         else{
             for(let i=0;i<length;i++){
                 if(!isPositionValid(a,b+i)){
-                    console.log("not valid position")
                     return false;
                 }
             }
@@ -108,7 +106,7 @@ function Gameboard(x,y=null) {
                     }
                     return true;
                 }else{
-                    console.log("ship too long");
+                    //console.log("ship too long");
                     return false;
                 }
             }else{
@@ -124,14 +122,14 @@ function Gameboard(x,y=null) {
                     }
                     return true;
                 }else{
-                    console.log("ship too long");
+                    //console.log("ship too long");
                     return false;
                 }
             }
             console.log({board,shipBoard});
             return console.log("placed ship"); 
         }else{
-            console.log("wrong coords"); 
+            //console.log("wrong coords"); 
         }
     }
     function placeHit(a,b){

@@ -61,7 +61,11 @@ function Player(gameboard){
         while(arr.length>0){
             randomCoords = gameboard.getEmptyShipCoords()[Math.floor(Math.random()*gameboard.getEmptyShipCoords().length)];
             if(gameboard.placeShip(randomCoords[0],randomCoords[1],arr[arr.length-1],(Math.random()<0.5))){
+                console.log("successfully placed ship")
                 arr.pop();
+            }
+            else{
+                console.log("failed to place ship");
             }
         }
     }
