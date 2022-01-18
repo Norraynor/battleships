@@ -2,6 +2,7 @@ const gameboard = require("./Gameboard");
 const ship = require("./Ship");
 let shipGameboard = gameboard(3,3);
 let shipGameboardV2 = gameboard(3);
+let bigShipGameboard = gameboard(5);
 
 test('gameboard creation',()=>{
     expect(shipGameboard.gameboard).toStrictEqual([[0,0,0],[0,0,0],[0,0,0]]);
@@ -23,6 +24,7 @@ test('coords validation 4',()=>{
 })
 beforeEach(()=>{
     shipGameboard = gameboard(3,3);
+    bigShipGameboard= gameboard(5);
 })
 test('ship placement horizontal',()=>{
     let newS = ship(2);
@@ -153,4 +155,36 @@ test('check hit gameboard with 2 hit and long ship placed',()=>{
 })
 test('check all empty coords to be empty',()=>{
     expect(gameboard(2,2).getEmptyHitCoords()).toStrictEqual([[0,0],[0,1],[1,0],[1,1]]);
+})
+test('check placement validation',()=>{    
+    let maxShip = ship(5);
+    let bigShip = ship(4);
+    bigShipGameboard.placeShip(0,2,maxShip,true);
+    expect(bigShipGameboard.placeShip(0,2,bigShip,true)).toBe(false);
+    expect(bigShipGameboard.placeShip(1,2,bigShip,true)).toBe(false);
+    expect(bigShipGameboard.placeShip(2,2,bigShip,true)).toBe(false);
+    expect(bigShipGameboard.placeShip(3,2,bigShip,true)).toBe(false);
+    expect(bigShipGameboard.placeShip(4,2,bigShip,true)).toBe(false);
+    expect(bigShipGameboard.placeShip(2,0,bigShip,false)).toBe(false);
+    expect(bigShipGameboard.placeShip(2,1,bigShip,false)).toBe(false);
+    expect(bigShipGameboard.placeShip(2,2,bigShip,false)).toBe(false);
+    expect(bigShipGameboard.placeShip(2,3,bigShip,false)).toBe(false);
+    expect(bigShipGameboard.placeShip(2,4,bigShip,false)).toBe(false);
+
+    expect(bigShipGameboard.placeShip(1,0,bigShip,true)).toBe(true);
+    expect(bigShipGameboard.placeShip(1,1,bigShip,true)).toBe(true);
+    expect(bigShipGameboard.placeShip(1,2,bigShip,true)).toBe(false);
+    expect(bigShipGameboard.placeShip(1,3,bigShip,true)).toBe(false);
+    expect(bigShipGameboard.placeShip(1,4,bigShip,true)).toBe(false);
+
+
+
+    expect(bigShipGameboard.getShipGameboard()).toBe(bigShip);
+
+    expect(bigShipGameboard.getShipGameboard()[0][2]).toBe(maxShip);
+    expect(bigShipGameboard.getShipGameboard()[1][2]).toBe(maxShip);
+    expect(bigShipGameboard.getShipGameboard()[2][2]).toBe(maxShip);
+    expect(bigShipGameboard.getShipGameboard()[3][2]).toBe(maxShip);
+    expect(bigShipGameboard.getShipGameboard()[4][2]).toBe(maxShip);
+
 })

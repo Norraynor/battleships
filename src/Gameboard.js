@@ -69,7 +69,7 @@ function Gameboard(x,y=null) {
 
     //need to fix placement issues where it doesnt check all the tiles on the way
     function placeShip(a,b, ship=null, vertical = false){
-        console.log(isPlacementValid(a,b,ship.getLength(),vertical))
+        //console.log(isPlacementValid(a,b,ship.getLength(),vertical))
         /*if(vertical){
             if(isPlacementValid(a,b,a+ship.getLength()-1,b),vertical){
                 for(let i=0;i<ship.getLength();i++){
@@ -93,9 +93,12 @@ function Gameboard(x,y=null) {
         }*/
         
         if(isPositionValid(a,b)){
+            console.log("position valid "+[a,b])
             if(vertical){
-                if(isPositionValid(a+ship.getLength()-1,b)){
+                //if(isPositionValid(a+ship.getLength()-1,b)){
+
                     if(isPlacementValid(a,b,ship.getLength(),vertical)){
+                        console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
                         for(let i=0;i<ship.getLength();i++){
                             if(ship===null){
                                 shipBoard[a+i][b]="ship";
@@ -103,15 +106,19 @@ function Gameboard(x,y=null) {
                                 shipBoard[a+i][b]=ship;
                             }
                         }
+                        return true;
+                    }else{
+                        return false;
                     }
-                    return true;
-                }else{
+                //}else{
                     //console.log("ship too long");
-                    return false;
-                }
+                    //return false;
+                //}
             }else{
-                if(isPositionValid(a,b+ship.getLength()-1)){
+                //if(isPositionValid(a,b+ship.getLength()-1)){
+
                     if(isPlacementValid(a,b,ship.getLength(),vertical)){
+                        console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
                         for(let i=0;i<ship.getLength();i++){
                             if(ship===null){
                                 shipBoard[a][b+i]="ship";
@@ -119,17 +126,18 @@ function Gameboard(x,y=null) {
                                 shipBoard[a][b+i]=ship;
                             }
                         }
+                        return true;
+                    }else{
+                        return false;
                     }
-                    return true;
-                }else{
+                //}else{
                     //console.log("ship too long");
-                    return false;
-                }
+                    //return false;
+                //}
             }
-            console.log({board,shipBoard});
-            return console.log("placed ship"); 
         }else{
-            //console.log("wrong coords"); 
+            console.log("wrong coords"); 
+            return false;
         }
     }
     function placeHit(a,b){
