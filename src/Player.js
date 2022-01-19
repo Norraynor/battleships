@@ -46,18 +46,24 @@ function Player(gameboard){
         const size3 = ship(3);
         const size4 = ship(4);
         const size5 = ship(5);
+        //const size6 = ship(6);
+
         console.log(gameboard);
         gameboard.placeShip(0,1,size2,false);
         gameboard.placeShip(0,0,size3,true);
         gameboard.placeShip(3,0,size4,false);
         gameboard.placeShip(0,4,size5,true);
+        //gameboard.placeShip(5,0,size6,false);
+
     }
     function randomizeShipsPopulate(){
         const size2 = ship(2);
         const size3 = ship(3);
         const size4 = ship(4);
         const size5 = ship(5);
+        //const size6 = ship(6);
         const arr=[size2,size3,size4,size5];
+
         while(arr.length>0){
             randomCoords = gameboard.getEmptyShipCoords()[Math.floor(Math.random()*gameboard.getEmptyShipCoords().length)];
             if(gameboard.placeShip(randomCoords[0],randomCoords[1],arr[arr.length-1],(Math.random()<0.5))){

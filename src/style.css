@@ -52,3 +52,6 @@
 .hitsunk{
   background-color: rgb(187, 8, 8);
 }
+.ship-sunk{
+  background-color: gray;
+}

@@ -13,7 +13,16 @@ function DOMHandler(gameboardSize){
                 gItem.id = ("" + i) + (j + "");
                 if(owner.getGameboard().getShipGameboard()[i][j] !== 0 && type!=="hit"){
                     gItem.attributes.ship = owner.getGameboard().getShipGameboard()[i][j]
-                    gItem.classList.add("ship");
+                    if(owner.getGameboard().getHitGameboard()[i][j] !== "x"){
+                        if(!gItem.classList.contains("ship")){
+                            gItem.classList.add("ship");
+                        }
+                    }else{
+                        if(gItem.classList.contains("ship")){                            
+                            gItem.classList.remove("ship");
+                        }
+                        gItem.classList.add("ship-sunk");
+                    }
                 }
                 if(owner.getGameboard().getHitGameboard()[i][j] !== 0 && type!=="ship" && !gItem.classList.contains("hit")){
                     gItem.attributes.ship = owner.getGameboard().getHitGameboard()[i][j]

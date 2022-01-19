@@ -79,16 +79,10 @@ function component() {
     container.textContent="";
     const shipGameboard = DOMHandler(size).createGameboard("ship",player);
     shipGameboard.classList.add("player");
-    const hitGameboard = DOMHandler(size).createGameboard("hit",player);
-    hitGameboard.classList.add("player");
-    const cShipGameboard = DOMHandler(size).createGameboard("ship",computer);
-    cShipGameboard.classList.add("computer");
     const cHitGameboard = DOMHandler(size).createGameboard("hit",computer);
     cHitGameboard.classList.add("computer");
     container.appendChild(shipGameboard);
     container.appendChild(cHitGameboard);
-    container.appendChild(cShipGameboard);
-    container.appendChild(hitGameboard);
     element.appendChild(container);
   }
   
