@@ -10,6 +10,7 @@ const player = Player(Gameboard(size));
 const computer = Player(Gameboard(size));
 let turn = false; //false = player turn || true = computer turn
 let gameInProgress = true;
+let setup = true;
 
 
 function component() {
@@ -17,12 +18,25 @@ function component() {
     const btn = document.createElement('button');
     const container = document.createElement("div");
     container.classList.add("container");
+    element.classList.add('hello');
     
     // Lodash, currently included via a script, is required for this line to work
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-    element.classList.add('hello');
-
-    btn.innerHTML = 'Click me and check the console!';
+    if(setup){
+      element.innerText = _.join(['Setup', 'Phase'], ' ');
+      btn.innerText = 'End setup!';
+    }else{
+      element.innerText = _.join(['Game', 'Phase'], ' ');
+      btn.innerText = 'End game!';
+    }
+    btn.addEventListener("click",()=>{
+      if(setup){
+        setup= false;
+      }
+      else{
+        setup=true;
+      }
+      refresh(element,container,btn);
+    })
     //btn.onclick = printMe;
     /*btn.addEventListener("click",(event)=>{
       event.target.dispatchEvent(new Event('refresh',{
@@ -36,7 +50,7 @@ function component() {
 
     element.appendChild(btn);
     //refresh?
-    refresh(element,container);
+    refresh(element,container,btn);
     //end refresh?
     element.addEventListener('refresh',(e)=>{
       if(gameInProgress){
@@ -53,7 +67,7 @@ function component() {
         if(turn){
           player.computerAttack(e);
         }
-        refresh(element,container);
+        refresh(element,container,btn);
       }else{
         console.log("game finished");
       }
@@ -72,9 +86,18 @@ function component() {
       turn = !turn;
   }
 
-  function refresh(element,container){
+  function refresh(element,container,btn=null){
     if(element.contains(container)){
       element.removeChild(container);
+    }
+    if(setup){
+      element.innerText = _.join(['Setup', 'Phase'], ' ');
+      btn.innerText = 'End setup!';
+      
+    }else{
+      element.innerText = _.join(['Game', 'Phase'], ' ');
+      btn.innerText = 'End game!';
+      
     }
     container.textContent="";
     const shipGameboard = DOMHandler(size).createGameboard("ship",player);
@@ -83,7 +106,9 @@ function component() {
     cHitGameboard.classList.add("computer");
     container.appendChild(shipGameboard);
     container.appendChild(cHitGameboard);
+    element.appendChild(btn);
     element.appendChild(container);
+    
   }
   
   document.body.appendChild(component());
