@@ -61,9 +61,10 @@ function component() {
           console.log("computer lost");
           gameInProgress=false;
         }
-        console.log("turn: " + turn)
+        console.log(player.getGameboard().getEmptyHitCoords().length);
+        console.log(computer.getGameboard().getEmptyHitCoords().length);
         changeTurn();
-        console.log("turn: " + turn)
+        
         if(turn){
           player.computerAttack(e);
         }

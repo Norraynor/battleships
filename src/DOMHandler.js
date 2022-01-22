@@ -36,16 +36,14 @@ function DOMHandler(gameboardSize){
                     }
                 }
                 gItem.addEventListener("click",(event)=>{
-                    console.log(event);
-                    console.log({gItem,gameboard});
-                    //here it should mark hit and record it on gameboard
-                    owner.getGameboard().placeHit(gItem.id[0],gItem.id[1]);
                     //refreshGameboard(i,j,owner,type);
-                    if(!event.target.classList.contains("hit")){
+                    if(!event.target.classList.contains("hitf") && !event.target.classList.contains("hits")){
+                        //here it should mark hit and record it on gameboard
+                        owner.getGameboard().placeHit(gItem.id[0],gItem.id[1]);   
                         event.target.dispatchEvent(new Event('refresh',{
                             bubbles:true,
                             cancelable:true
-                        }));
+                        }));                     
                     }
                     /*event.target.dispatchEvent(new Event('turn',{
                         bubbles:true,
