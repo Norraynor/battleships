@@ -6,6 +6,12 @@ function DOMHandler(gameboardSize){
         gameboard.className = "gameboard";
         gameboard.owner = owner;
         gameboard.type = type;
+        let gameStatus = false;
+        gameboard.addEventListener("statusChange",(e)=>{
+            console.log(e);
+            console.log(e.detail);
+            gameStatus = e.detail.statusChange;
+        })
         for(let i = 0; i<gameboardSize;i++){
             for(let j = 0;j<gameboardSize;j++){
                 const gItem = document.createElement("div");
@@ -37,6 +43,7 @@ function DOMHandler(gameboardSize){
                 }
                 gItem.addEventListener("click",(event)=>{
                     //refreshGameboard(i,j,owner,type);
+                    
                     if(!event.target.classList.contains("hitf") && !event.target.classList.contains("hits")){
                         //here it should mark hit and record it on gameboard
                         owner.getGameboard().placeHit(gItem.id[0],gItem.id[1]);   

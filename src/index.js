@@ -28,13 +28,17 @@ function component() {
       element.innerText = _.join(['Game', 'Phase'], ' ');
       btn.innerText = 'End game!';
     }
-    btn.addEventListener("click",()=>{
-      if(setup){
-        setup= false;
-      }
-      else{
-        setup=true;
-      }
+    btn.addEventListener("click",(e)=>{
+      console.log("button clicked")
+      setup = !setup;
+      /*
+      e.target.dispatchEvent(new CustomEvent('statusChange',{
+        bubbles:true,
+        cancelable:true,
+        detail: {statusChange: setup }
+      }));
+      */
+      console.log("event should be dispatched");
       refresh(element,container,btn);
     })
     //btn.onclick = printMe;
@@ -63,7 +67,7 @@ function component() {
         }
         console.log(player.getGameboard().getEmptyHitCoords().length);
         console.log(computer.getGameboard().getEmptyHitCoords().length);
-        changeTurn();
+        changeTurn(e);
         
         if(turn){
           player.computerAttack(e);
@@ -84,7 +88,7 @@ function component() {
     return element;
   }
   function changeTurn(){    
-      turn = !turn;
+      turn = !turn;       
   }
 
   function refresh(element,container,btn=null){
