@@ -1,17 +1,12 @@
 function DOMHandler(gameboardSize){
     //add something to show that ship is hit and sunk
     //something to notify all ships destroyed
-    function createGameboard(type,owner){
+    function createGameboard(type,owner,setup=true){        
         const gameboard = document.createElement("div");
         gameboard.className = "gameboard";
         gameboard.owner = owner;
         gameboard.type = type;
-        let gameStatus = false;
-        gameboard.addEventListener("statusChange",(e)=>{
-            console.log(e);
-            console.log(e.detail);
-            gameStatus = e.detail.statusChange;
-        })
+
         for(let i = 0; i<gameboardSize;i++){
             for(let j = 0;j<gameboardSize;j++){
                 const gItem = document.createElement("div");

@@ -19,7 +19,11 @@ function component() {
     const container = document.createElement("div");
     container.classList.add("container");
     element.classList.add('hello');
-    
+    element.addEventListener("statusChange",(e)=>{
+      console.log(e);
+      console.log(e.detail);
+      //gameStatus = e.detail.statusChange;
+  })
     // Lodash, currently included via a script, is required for this line to work
     if(setup){
       element.innerText = _.join(['Setup', 'Phase'], ' ');
@@ -29,17 +33,15 @@ function component() {
       btn.innerText = 'End game!';
     }
     btn.addEventListener("click",(e)=>{
-      console.log("button clicked")
-      setup = !setup;
-      /*
+      setup = !setup;   
+
       e.target.dispatchEvent(new CustomEvent('statusChange',{
         bubbles:true,
         cancelable:true,
         detail: {statusChange: setup }
       }));
-      */
-      console.log("event should be dispatched");
       refresh(element,container,btn);
+
     })
     //btn.onclick = printMe;
     /*btn.addEventListener("click",(event)=>{
@@ -67,8 +69,8 @@ function component() {
         }
         console.log(player.getGameboard().getEmptyHitCoords().length);
         console.log(computer.getGameboard().getEmptyHitCoords().length);
-        changeTurn(e);
-        
+        changeTurn();
+
         if(turn){
           player.computerAttack(e);
         }
@@ -105,9 +107,9 @@ function component() {
       
     }
     container.textContent="";
-    const shipGameboard = DOMHandler(size).createGameboard("ship",player);
+    const shipGameboard = DOMHandler(size).createGameboard("ship",player,setup);
     shipGameboard.classList.add("player");
-    const cHitGameboard = DOMHandler(size).createGameboard("hit",computer);
+    const cHitGameboard = DOMHandler(size).createGameboard("hit",computer,setup);
     cHitGameboard.classList.add("computer");
     container.appendChild(shipGameboard);
     container.appendChild(cHitGameboard);
