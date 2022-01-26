@@ -209,6 +209,9 @@ function Gameboard(x,y=null) {
         }
         return arr;
     }
+    function getSize(){
+        return x;
+    }
 
     return {
         gameboard: board,
@@ -220,7 +223,8 @@ function Gameboard(x,y=null) {
         checkAllShipsSunk,
         getHitGameboard,
         getEmptyHitCoords,
-        getEmptyShipCoords
+        getEmptyShipCoords,
+        getSize
     }
 }
 module.exports = Gameboard;

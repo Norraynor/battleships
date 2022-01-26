@@ -19,11 +19,6 @@ function component() {
     const container = document.createElement("div");
     container.classList.add("container");
     element.classList.add('hello');
-    element.addEventListener("statusChange",(e)=>{
-      console.log(e);
-      console.log(e.detail);
-      //gameStatus = e.detail.statusChange;
-  })
     // Lodash, currently included via a script, is required for this line to work
     if(setup){
       element.innerText = _.join(['Setup', 'Phase'], ' ');
@@ -33,15 +28,8 @@ function component() {
       btn.innerText = 'End game!';
     }
     btn.addEventListener("click",(e)=>{
-      setup = !setup;   
-
-      e.target.dispatchEvent(new CustomEvent('statusChange',{
-        bubbles:true,
-        cancelable:true,
-        detail: {statusChange: setup }
-      }));
+      setup = !setup;         
       refresh(element,container,btn);
-
     })
     //btn.onclick = printMe;
     /*btn.addEventListener("click",(event)=>{

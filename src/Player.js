@@ -12,6 +12,12 @@ function Player(gameboard){
             gameboard.placeHit(x,y);
         }
     }
+    const ships = [];
+    for(let i = gameboard.getSize();i>0;i--){
+        console.log(i);
+        ships.push(ship(i))
+        console.log(ships);
+    }
     function computerAttack(event){
         //select random from array of coordinates
         randomCoords = gameboard.getEmptyHitCoords()[Math.floor(Math.random()*gameboard.getEmptyHitCoords().length)];
@@ -40,6 +46,9 @@ function Player(gameboard){
     }
     function getTurn(){
         return turn;
+    }
+    function getShips(){
+
     }
     function templateShipsPopulate(){
         const size2 = ship(2);
