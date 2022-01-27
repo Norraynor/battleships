@@ -35,7 +35,32 @@ function DOMHandler(gameboardSize){
                         gItem.classList.add("hits");
                     }
                 }
-                //if setup then this should not work
+                gItem.addEventListener("mouseover",()=>{
+                    //add ship ghost to know how to place ship and stuff
+                    //
+                    //
+                    //------------
+                    if(gItem.parentElement.classList.contains("player")){
+                        if(setup){
+                            gItem.classList.add("setup-mode")
+                        }else{
+                            gItem.classList.add("game-mode")
+                        }
+                    }else{
+                        gItem.classList.add("game-mode")
+                    }
+                })
+                gItem.addEventListener("mouseleave",()=>{
+                    if(gItem.parentElement.classList.contains("player")){
+                        if(setup){
+                            gItem.classList.remove("setup-mode");
+                        }else{
+                            gItem.classList.remove("game-mode");
+                        }
+                    }else{
+                        gItem.classList.remove("game-mode");
+                    }
+                })
                 gItem.addEventListener("click",(event)=>{
                     //refreshGameboard(i,j,owner,type);
                     console.log(gItem.parentElement)
@@ -44,6 +69,10 @@ function DOMHandler(gameboardSize){
                             //place ship here during setup
                             console.log("ship placed - probably");
                             //get ships list and place them one by one
+                            let shipsToPlace = owner.getShips();
+                            for(let i = 0;i<owner.getShips().length;i++){
+                                console.log(shipsToPlace[i].getLength());
+                            }
                         }
                     }else{
                         if(gItem.parentElement.classList.contains("computer")){

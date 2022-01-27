@@ -5,6 +5,7 @@ const ship = require("./Ship");
 
 function Player(gameboard){
     let turn = false;
+    const ships = [];
     function attack(x,y){
         //attack opponent or receive attack
         //place hit on the gameboard
@@ -12,12 +13,13 @@ function Player(gameboard){
             gameboard.placeHit(x,y);
         }
     }
-    const ships = [];
-    for(let i = gameboard.getSize();i>0;i--){
-        console.log(i);
-        ships.push(ship(i))
-        console.log(ships);
+    function createShips(){
+        for(let i = gameboard.getSize()-1;i>0;i--){
+            ships.push(ship(i));
+        }
     }
+    createShips();
+
     function computerAttack(event){
         //select random from array of coordinates
         randomCoords = gameboard.getEmptyHitCoords()[Math.floor(Math.random()*gameboard.getEmptyHitCoords().length)];
@@ -48,7 +50,7 @@ function Player(gameboard){
         return turn;
     }
     function getShips(){
-
+        return ships;
     }
     function templateShipsPopulate(){
         const size2 = ship(2);
@@ -91,7 +93,8 @@ function Player(gameboard){
         setTurn,
         templateShipsPopulate,
         getTurn,
-        randomizeShipsPopulate
+        randomizeShipsPopulate,
+        getShips
     }
 }
 module.exports = Player;
