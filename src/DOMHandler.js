@@ -42,6 +42,13 @@ function DOMHandler(gameboardSize){
                     //------------
                     if(gItem.parentElement.classList.contains("player")){
                         if(setup){
+                            const shipsArr = owner.getShips();
+                            console.log(parseInt(gItem.id[0]),parseInt(gItem.id[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)
+                            if(owner.getGameboard().isPlacementValid(parseInt(gItem.id[0]),parseInt(gItem.id[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)){
+                                console.log("placement valid")
+                            }else{
+                                console.log("placement invalid");
+                            }
                             gItem.classList.add("setup-mode")
                         }else{
                             gItem.classList.add("game-mode")

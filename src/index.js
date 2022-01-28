@@ -11,25 +11,42 @@ const computer = Player(Gameboard(size));
 let turn = false; //false = player turn || true = computer turn
 let gameInProgress = true;
 let setup = true;
+let vertical = false;
 
 
 function component() {
     const element = document.createElement('div');
     const btn = document.createElement('button');
+    const verticalBtn = document.createElement('button');
     const container = document.createElement("div");
     container.classList.add("container");
     element.classList.add('hello');
+    verticalBtn.classList.add("vertical-btn");
     // Lodash, currently included via a script, is required for this line to work
     if(setup){
       element.innerText = _.join(['Setup', 'Phase'], ' ');
       btn.innerText = 'End setup!';
+      verticalBtn.classList.remove("hidden");
+      
+      if(vertical){
+        verticalBtn.innerText = "vertical"
+        container.vertical = true;
+      }else{
+        verticalBtn.innerText = "horizontal"
+        container.vertical = false;
+      }
     }else{
       element.innerText = _.join(['Game', 'Phase'], ' ');
       btn.innerText = 'End game!';
+      verticalBtn.classList.add("hidden")
     }
     btn.addEventListener("click",(e)=>{
       setup = !setup;         
-      refresh(element,container,btn);
+      refresh(element,container,btn,verticalBtn);
+    })
+    verticalBtn.addEventListener("click",(e)=>{
+      vertical=!vertical;
+      refresh(element,container,btn,verticalBtn);
     })
     //btn.onclick = printMe;
     /*btn.addEventListener("click",(event)=>{
@@ -39,12 +56,13 @@ function component() {
     }));
     })*/
 
-    player.templateShipsPopulate(player.getGameboard().getShipGameboard());
+    //player.templateShipsPopulate(player.getGameboard().getShipGameboard());
     computer.randomizeShipsPopulate(computer.getGameboard().getShipGameboard());
 
     element.appendChild(btn);
+    element.appendChild(verticalBtn);
     //refresh?
-    refresh(element,container,btn);
+    refresh(element,container,btn,verticalBtn);
     //end refresh?
     element.addEventListener('refresh',(e)=>{
       if(gameInProgress){
@@ -62,7 +80,7 @@ function component() {
         if(turn){
           player.computerAttack(e);
         }
-        refresh(element,container,btn);
+        refresh(element,container,btn,verticalBtn);
       }else{
         console.log("game finished");
       }
@@ -81,18 +99,27 @@ function component() {
       turn = !turn;       
   }
 
-  function refresh(element,container,btn=null){
+  function refresh(element,container,btn=null,verticalBtn=null){
     if(element.contains(container)){
       element.removeChild(container);
     }
     if(setup){
       element.innerText = _.join(['Setup', 'Phase'], ' ');
       btn.innerText = 'End setup!';
+      verticalBtn.classList.remove("hidden");
+      
+      if(vertical){
+        verticalBtn.innerText = "vertical"
+        container.vertical = true;
+      }else{
+        verticalBtn.innerText = "horizontal"
+        container.vertical = false;
+      }
       
     }else{
       element.innerText = _.join(['Game', 'Phase'], ' ');
       btn.innerText = 'End game!';
-      
+      verticalBtn.classList.add("hidden")      
     }
     container.textContent="";
     const shipGameboard = DOMHandler(size).createGameboard("ship",player,setup);
@@ -102,6 +129,7 @@ function component() {
     container.appendChild(shipGameboard);
     container.appendChild(cHitGameboard);
     element.appendChild(btn);
+    element.appendChild(verticalBtn);
     element.appendChild(container);
     
   }

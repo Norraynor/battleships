@@ -224,7 +224,8 @@ function Gameboard(x,y=null) {
         getHitGameboard,
         getEmptyHitCoords,
         getEmptyShipCoords,
-        getSize
+        getSize,
+        isPlacementValid
     }
 }
 module.exports = Gameboard;
