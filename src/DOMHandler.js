@@ -10,7 +10,9 @@ function DOMHandler(gameboardSize){
             for(let j = 0;j<gameboardSize;j++){
                 const gItem = document.createElement("div");
                 gItem.className = "gameboard-item";
-                gItem.id = ("" + i) + (j + "");
+                //gItem.id = ("" + i) + (j + "");
+                gItem.coords = ("" + i) + (j + "");
+                gItem.setAttribute("coords",("" + i) + (j + ""))
                 if(owner.getGameboard().getShipGameboard()[i][j] !== 0 && type!=="hit"){
                     gItem.attributes.ship = owner.getGameboard().getShipGameboard()[i][j]
                     if(owner.getGameboard().getHitGameboard()[i][j] !== "x"){
@@ -42,14 +44,25 @@ function DOMHandler(gameboardSize){
                     //------------
                     if(gItem.parentElement.classList.contains("player")){
                         if(setup){
+                            console.log(gItem.coords);
                             const shipsArr = owner.getShips();
-                            console.log(parseInt(gItem.id[0]),parseInt(gItem.id[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)
-                            if(owner.getGameboard().isPlacementValid(parseInt(gItem.id[0]),parseInt(gItem.id[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)){
+                            console.log(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)
+                            if(owner.getGameboard().isPlacementValid(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)){
                                 console.log("placement valid")
+                                let startCoords = [parseInt(gItem.coords[0]),parseInt(gItem.coords[1])];
+                                let currentShipGhostElements = [];
+                                //ghost ship here before placing
+                                if(gameboard.parentElement.vertical){
+                                    //ghost vertical
+                                    console.log("vertical");
+                                }else{
+                                    //ghost horizontal
+                                    console.log("horizontal");
+                                }
                             }else{
                                 console.log("placement invalid");
                             }
-                            gItem.classList.add("setup-mode")
+                            gItem.classList.add("setup-mode");
                         }else{
                             gItem.classList.add("game-mode")
                         }
