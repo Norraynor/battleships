@@ -37,7 +37,7 @@ function DOMHandler(gameboardSize){
                         gItem.classList.add("hits");
                     }
                 }
-                gItem.addEventListener("mouseover",()=>{
+                gItem.addEventListener("mouseover",(e)=>{
                     //add ship ghost to know how to place ship and stuff
                     //
                     //
@@ -49,8 +49,8 @@ function DOMHandler(gameboardSize){
                             console.log(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)
                             if(owner.getGameboard().isPlacementValid(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)){
                                 console.log("placement valid")
-                                let startCoords = [parseInt(gItem.coords[0]),parseInt(gItem.coords[1])];
-                                let currentShipGhostElements = [];
+                                let gameboardCur = e.target.parentElement;
+                                let ghostArr = [];
                                 //ghost ship here before placing
                                 if(gameboard.parentElement.vertical){
                                     //ghost vertical
@@ -58,6 +58,17 @@ function DOMHandler(gameboardSize){
                                 }else{
                                     //ghost horizontal
                                     console.log("horizontal");
+                                    console.log(e.target.coords);
+                                    for(let i = e.target.coords[0];i<shipsArr[0].getLength();i++){      
+                                        let currCords = e.target.coords[0]+''+[i];     
+                                        console.log(currCords);      
+                                        ghostArr.push([...gameboardCur.childNodes].filter(item => item.coords === currCords));
+                                    } 
+                                    console.log(ghostArr);
+                                    //---
+                                    //add diff color for ghost for all tiles and remove when mouse exits
+                                    //
+                                    //---
                                 }
                             }else{
                                 console.log("placement invalid");
