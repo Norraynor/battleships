@@ -37,51 +37,8 @@ function DOMHandler(gameboardSize){
                         gItem.classList.add("hits");
                     }
                 }
-                gItem.addEventListener("mouseover",(e)=>{
-                    //add ship ghost to know how to place ship and stuff
-                    //
-                    //
-                    //------------
-                    if(gItem.parentElement.classList.contains("player")){
-                        if(setup){
-                            console.log(gItem.coords);
-                            const shipsArr = owner.getShips();
-                            console.log(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)
-                            if(owner.getGameboard().isPlacementValid(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)){
-                                console.log("placement valid")
-                                let gameboardCur = e.target.parentElement;
-                                let ghostArr = [];
-                                //ghost ship here before placing
-                                if(gameboard.parentElement.vertical){
-                                    //ghost vertical
-                                    console.log("vertical");
-                                }else{
-                                    //ghost horizontal
-                                    console.log("horizontal");
-                                    console.log(e.target.coords);
-                                    for(let i = e.target.coords[0];i<shipsArr[0].getLength();i++){      
-                                        let currCords = e.target.coords[0]+''+[i];     
-                                        console.log(currCords);      
-                                        ghostArr.push([...gameboardCur.childNodes].filter(item => item.coords === currCords));
-                                    } 
-                                    console.log(ghostArr);
-                                    //---
-                                    //add diff color for ghost for all tiles and remove when mouse exits
-                                    //
-                                    //---
-                                }
-                            }else{
-                                console.log("placement invalid");
-                            }
-                            gItem.classList.add("setup-mode");
-                        }else{
-                            gItem.classList.add("game-mode")
-                        }
-                    }else{
-                        gItem.classList.add("game-mode")
-                    }
-                })
-                gItem.addEventListener("mouseleave",()=>{
+                let ghostArr = [];
+                gItem.addEventListener("mouseleave",(e)=>{
                     if(gItem.parentElement.classList.contains("player")){
                         if(setup){
                             gItem.classList.remove("setup-mode");
@@ -90,6 +47,58 @@ function DOMHandler(gameboardSize){
                         }
                     }else{
                         gItem.classList.remove("game-mode");
+                    }
+                    //remove color from tiles after mouse leaves
+                    for(let i = 0;i<ghostArr.length;i++){
+                        if(ghostArr[i][0].classList.contains("ghost-ship")){
+                            ghostArr[i][0].classList.remove("ghost-ship");
+                        }
+                        if(ghostArr[i][0].classList.contains("ghost-ship-invalid")){
+                            ghostArr[i][0].classList.remove("ghost-ship-invalid");
+                        }
+                    }
+                    ghostArr=[];
+                })
+                gItem.addEventListener("mouseover",(e)=>{                    
+                    if(gItem.parentElement.classList.contains("player")){
+                        if(setup){
+                            const shipsArr = owner.getShips();
+                            let gameboardCur = e.target.parentElement;
+                            if(!gameboard.parentElement.vertical){
+                                for(let i = e.target.coords[1];i<e.target.coords[1]+shipsArr[0].getLength();i++){      
+                                    let currCords = e.target.coords[0]+''+[i];   
+                                    console.log(currCords,i,shipsArr[0].getLength());  
+                                    ghostArr.push([...gameboardCur.childNodes].filter(item => item.coords === currCords));
+                                } 
+                            }else{
+                                for(let i = e.target.coords[0];i<e.target.coords[0]+shipsArr[0].getLength();i++){      
+                                    let currCords = [i]+''+e.target.coords[1];     
+                                    ghostArr.push([...gameboardCur.childNodes].filter(item => item.coords === currCords));
+                                } 
+                            }
+                            if(owner.getGameboard().isPlacementValid(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr[0].getLength(),gameboard.parentElement.vertical)){
+                                console.log("placement valid")
+                                //ghost ship here before placing
+                                
+                                //add diff color for ghost for all tiles and remove when mouse exits
+                                //
+                                //---
+                                for(let i = 0;i<ghostArr.length;i++){
+                                    ghostArr[i][0].classList.add("ghost-ship");
+                                }
+                                
+                            }else{
+                                console.log("placement invalid");
+                                for(let i = 0;i<ghostArr.length;i++){
+                                    ghostArr[i][0].classList.add("ghost-ship-invalid");
+                                }
+                            }
+                            gItem.classList.add("setup-mode");
+                        }else{
+                            gItem.classList.add("game-mode")
+                        }
+                    }else{
+                        gItem.classList.add("game-mode")
                     }
                 })
                 gItem.addEventListener("click",(event)=>{
