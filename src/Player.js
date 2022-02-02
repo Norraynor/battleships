@@ -14,7 +14,7 @@ function Player(gameboard){
         }
     }
     function createShips(){
-        for(let i = gameboard.getSize()-1;i>0;i--){
+        for(let i = 1;i<gameboard.getSize();i++){
             ships.push(ship(i));
         }
     }

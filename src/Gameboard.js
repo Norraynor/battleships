@@ -33,107 +33,37 @@ function Gameboard(x,y=null) {
             return true;
         }
     }
-    /*function isPlacementValid(a1,b1,a2,b2,vertical){
-        console.log("checking placement",{a1,a2,b1,b2});
-        if(!vertical){
-            //check starting pos
-            if(isPositionValid(a1,b1)){
-                //check end pos
-                if(isPositionValid(a1,b2)){
-                    //go through every position
-                    for(let i = b1;i<=b2;i++){
-                        console.log(i)
-                        if(!isPositionValid(a1,i)){
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-        if(vertical){
-            if(isPositionValid(a1,b1)){
-                if(isPositionValid(a2,b1)){
-                    for(let i = a1;i<=a2;i++){
-                        console.log(i)
-                        if(!isPositionValid(i,b1)){
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
-
-    //need to fix placement issues where it doesnt check all the tiles on the way
     function placeShip(a,b, ship=null, vertical = false){
-        //console.log(isPlacementValid(a,b,ship.getLength(),vertical))
-        /*if(vertical){
-            if(isPlacementValid(a,b,a+ship.getLength()-1,b),vertical){
-                for(let i=0;i<ship.getLength();i++){
-                    if(ship===null){
-                        shipBoard[a+i][b]="ship";
-                    }else{
-                        shipBoard[a+i][b]=ship;
-                    }
-                }                
-            }
-        }else{
-            if(isPlacementValid(a,b,a,b+ship.getLength()-1),vertical){
-                for(let i=0;i<ship.getLength();i++){
-                    if(ship===null){
-                        shipBoard[a][b+i]="ship";
-                    }else{
-                        shipBoard[a][b+i]=ship;
-                    }
-                }                
-            }
-        }*/
-        
         if(isPositionValid(a,b)){
             console.log("position valid "+[a,b])
             if(vertical){
-                //if(isPositionValid(a+ship.getLength()-1,b)){
-
-                    if(isPlacementValid(a,b,ship.getLength(),vertical)){
-                        console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
-                        for(let i=0;i<ship.getLength();i++){
-                            if(ship===null){
-                                shipBoard[a+i][b]="ship";
-                            }else{
-                                shipBoard[a+i][b]=ship;
-                            }
+                if(isPlacementValid(a,b,ship.getLength(),vertical)){
+                    console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
+                    for(let i=0;i<ship.getLength();i++){
+                        if(ship===null){
+                            shipBoard[a+i][b]="ship";
+                        }else{
+                            shipBoard[a+i][b]=ship;
                         }
-                        return true;
-                    }else{
-                        return false;
                     }
-                //}else{
-                    //console.log("ship too long");
-                    //return false;
-                //}
+                    return true;
+                }else{
+                    return false;
+                }
             }else{
-                //if(isPositionValid(a,b+ship.getLength()-1)){
-
-                    if(isPlacementValid(a,b,ship.getLength(),vertical)){
-                        console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
-                        for(let i=0;i<ship.getLength();i++){
-                            if(ship===null){
-                                shipBoard[a][b+i]="ship";
-                            }else{
-                                shipBoard[a][b+i]=ship;
-                            }
+                if(isPlacementValid(a,b,ship.getLength(),vertical)){
+                    console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
+                    for(let i=0;i<ship.getLength();i++){
+                        if(ship===null){
+                            shipBoard[a][b+i]="ship";
+                        }else{
+                            shipBoard[a][b+i]=ship;
                         }
-                        return true;
-                    }else{
-                        return false;
                     }
-                //}else{
-                    //console.log("ship too long");
-                    //return false;
-                //}
+                    return true;
+                }else{
+                    return false;
+                }
             }
         }else{
             console.log("wrong coords"); 
