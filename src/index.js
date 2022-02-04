@@ -128,6 +128,7 @@ function component() {
     cHitGameboard.classList.add("computer");
     container.appendChild(shipGameboard);
     container.appendChild(cHitGameboard);
+    container.appendChild(DOMHandler(size).createAvailableShips(player));
     element.appendChild(btn);
     element.appendChild(verticalBtn);
     element.appendChild(container);

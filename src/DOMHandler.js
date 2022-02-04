@@ -66,7 +66,6 @@ function DOMHandler(gameboardSize){
                 gItem.addEventListener("mouseover",(e)=>{                    
                     if(gItem.parentElement.classList.contains("player")){
                         if(setup){
-                            console.log(shipsArr,shipsArr.length);
                             let gameboardCur = e.target.parentElement;
                             if(shipsArr.length>0){
                                 if(shipsArr[shipsArr.length-1].getLength()===1){
@@ -165,8 +164,28 @@ function DOMHandler(gameboardSize){
         }
         //refresh gameboard based on hits and ships
     }
+
+    function createAvailableShips(owner){
+        let ships = owner.getShips();
+        let container = document.createElement("div");
+        //create ships size with the look of grid
+        for(let i = ships.length-1; i>=0;i--){
+            let ship = document.createElement("div");
+            ship.classList.add("ship-display")
+            console.log(ships[i].getLength());
+            for(let j = 0;j<ships[i].getLength();j++){
+                let shipPart = document.createElement("div");
+                shipPart.classList.add("ship-display-part");
+                ship.appendChild(shipPart);
+            }
+            container.appendChild(ship);
+            container.classList.add("ships-display");
+        }
+        return container;
+    }
     return {
-        createGameboard
+        createGameboard,
+        createAvailableShips
     }
 }
 module.exports = DOMHandler;
