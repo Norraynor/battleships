@@ -48,22 +48,15 @@ function component() {
       vertical=!vertical;
       refresh(element,container,btn,verticalBtn);
     })
-    //btn.onclick = printMe;
-    /*btn.addEventListener("click",(event)=>{
-      event.target.dispatchEvent(new Event('refresh',{
-        bubbles:true,
-        cancelable:true
-    }));
-    })*/
 
     //player.templateShipsPopulate(player.getGameboard().getShipGameboard());
     computer.randomizeShipsPopulate(computer.getGameboard().getShipGameboard());
 
     element.appendChild(btn);
     element.appendChild(verticalBtn);
-    //refresh?
+
     refresh(element,container,btn,verticalBtn);
-    //end refresh?
+    
     element.addEventListener('refresh',(e)=>{
       if(gameInProgress){
         if(player.getGameboard().checkAllShipsSunk()){
@@ -77,7 +70,7 @@ function component() {
         console.log(computer.getGameboard().getEmptyHitCoords().length);
         changeTurn();
 
-        if(turn){
+        if(turn && !setup){
           player.computerAttack(e);
         }
         refresh(element,container,btn,verticalBtn);
