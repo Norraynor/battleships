@@ -1,47 +1,58 @@
 .hello {
     color: red;
+    text-align: center;
+    font-size: 2rem;
+}
+.main-text{
+  font-weight: bold;
+}
+.hello button{
+  margin: 10px 20px;
 }
 .container{
   display: grid;
   width:500px;
   height: 500px;
-  background-color: aqua;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 1fr);
   place-items: center;
   place-content: center;
+  margin: 10px auto;
+  font-size: 1.2rem;
+  color: black
 }
 .gameboard{
   display: grid;
   width:200px;
   height: 200px;
-  background-color: pink;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   place-items: center;
   place-content: stretch;
   border-style: solid;
   border-width: 2px;
-  border-color: yellow;
+  border-color: black;
 }
 .gameboard-item{
   width:40px;
   height:40px;
   border-style: solid;
-  border-width: 2px;
+  border-width: 1px;
   box-sizing: border-box;
 }
 .ship{
-  background-color:brown
+  background-color:rgba(1, 150, 1,0.7);
 }
 .hitf{
   background-color: gray;
 }
 .player{
-  color:rgb(9, 247, 9)
+  color:rgb(1, 150, 1);
+  border-color: rgb(1, 150, 1);
 }
 .computer{
-  color:rgb(134, 2, 2)
+  color:rgb(134, 2, 2);
+  border-color: rgb(134, 2, 2);
 }
 .hits{
   background-color: rgb(115, 172, 115);
@@ -70,7 +81,7 @@
   row-gap: 10px;
 }
 .ship-display-part{
-  background-color: greenyellow;
+  background-color: rgb(1, 150, 1);
   width:40px;
   height:40px;
   border-style: solid;
@@ -80,5 +91,5 @@
 .ships-display{
   display: grid;
   grid-template-rows: repeat(4, 40px);
-  row-gap:20px
+  row-gap:5px
 }

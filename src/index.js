@@ -19,12 +19,14 @@ function component() {
     const btn = document.createElement('button');
     const verticalBtn = document.createElement('button');
     const container = document.createElement("div");
+    const mainText = document.createElement('div');
+    mainText.classList.add("main-text");
     container.classList.add("container");
     element.classList.add('hello');
     verticalBtn.classList.add("vertical-btn");
     // Lodash, currently included via a script, is required for this line to work
     if(setup){
-      element.innerText = _.join(['Setup', 'Phase'], ' ');
+      mainText.innerText = _.join(['Setup', 'Phase'], ' ');
       btn.innerText = 'End setup!';
       verticalBtn.classList.remove("hidden");
       
@@ -36,26 +38,27 @@ function component() {
         container.vertical = false;
       }
     }else{
-      element.innerText = _.join(['Game', 'Phase'], ' ');
+      mainText.innerText = _.join(['Game', 'Phase'], ' ');
       btn.innerText = 'End game!';
       verticalBtn.classList.add("hidden")
     }
     btn.addEventListener("click",(e)=>{
       setup = !setup;         
-      refresh(element,container,btn,verticalBtn);
+      refresh(element,container,btn,verticalBtn,mainText);
     })
     verticalBtn.addEventListener("click",(e)=>{
       vertical=!vertical;
-      refresh(element,container,btn,verticalBtn);
+      refresh(element,container,btn,verticalBtn,mainText);
     })
 
     //player.templateShipsPopulate(player.getGameboard().getShipGameboard());
     computer.randomizeShipsPopulate(computer.getGameboard().getShipGameboard());
 
+    element.appendChild(mainText);
     element.appendChild(btn);
     element.appendChild(verticalBtn);
 
-    refresh(element,container,btn,verticalBtn);
+    refresh(element,container,btn,verticalBtn,mainText);
     
     element.addEventListener('refresh',(e)=>{
       if(gameInProgress){
@@ -66,14 +69,12 @@ function component() {
           console.log("computer lost");
           gameInProgress=false;
         }
-        console.log(player.getGameboard().getEmptyHitCoords().length);
-        console.log(computer.getGameboard().getEmptyHitCoords().length);
         changeTurn();
 
         if(turn && !setup){
           player.computerAttack(e);
         }
-        refresh(element,container,btn,verticalBtn);
+        refresh(element,container,btn,verticalBtn,mainText);
       }else{
         console.log("game finished");
       }
@@ -92,12 +93,12 @@ function component() {
       turn = !turn;       
   }
 
-  function refresh(element,container,btn=null,verticalBtn=null){
+  function refresh(element,container,btn=null,verticalBtn=null,mainText=null){
     if(element.contains(container)){
       element.removeChild(container);
     }
     if(setup){
-      element.innerText = _.join(['Setup', 'Phase'], ' ');
+      mainText.innerText = _.join(['Setup', 'Phase'], ' ');
       btn.innerText = 'End setup!';
       verticalBtn.classList.remove("hidden");
       
@@ -110,7 +111,7 @@ function component() {
       }
       
     }else{
-      element.innerText = _.join(['Game', 'Phase'], ' ');
+      mainText.innerText = _.join(['Game', 'Phase'], ' ');
       btn.innerText = 'End game!';
       verticalBtn.classList.add("hidden")      
     }
@@ -122,6 +123,7 @@ function component() {
     container.appendChild(shipGameboard);
     container.appendChild(cHitGameboard);
     container.appendChild(DOMHandler(size).createAvailableShips(player));
+    element.appendChild(mainText);
     element.appendChild(btn);
     element.appendChild(verticalBtn);
     element.appendChild(container);
