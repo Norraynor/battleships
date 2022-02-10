@@ -39,11 +39,14 @@ function component() {
       }
     }else{
       mainText.innerText = _.join(['Game', 'Phase'], ' ');
-      btn.innerText = 'End game!';
+      btn.innerText = 'Reset game';
       verticalBtn.classList.add("hidden")
     }
     btn.addEventListener("click",(e)=>{
-      setup = !setup;         
+      setup = !setup;    
+      if(setup===false){
+        reset();
+      }     
       refresh(element,container,btn,verticalBtn,mainText);
     })
     verticalBtn.addEventListener("click",(e)=>{
@@ -87,13 +90,25 @@ function component() {
         player.computerAttack(e);
       }
     })*/
+
+    function reset(){
+      player.reset();
+      computer.reset();    
+      gameInProgress = true;
+      element.dispatchEvent(new Event('refresh',{
+        bubbles:true,
+        cancelable:true
+      }));  
+    }
     return element;
   }
+
   function changeTurn(){    
       turn = !turn;       
   }
 
   function refresh(element,container,btn=null,verticalBtn=null,mainText=null){
+    console.log("refreshing")
     if(element.contains(container)){
       element.removeChild(container);
     }
@@ -112,7 +127,7 @@ function component() {
       
     }else{
       mainText.innerText = _.join(['Game', 'Phase'], ' ');
-      btn.innerText = 'End game!';
+      btn.innerText = 'Reset game!';
       verticalBtn.classList.add("hidden")      
     }
     container.textContent="";
@@ -129,5 +144,6 @@ function component() {
     element.appendChild(container);
     
   }
+
   
   document.body.appendChild(component());

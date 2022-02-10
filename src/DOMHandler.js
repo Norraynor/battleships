@@ -113,7 +113,6 @@ function DOMHandler(gameboardSize){
                     if(setup){
                         if(gItem.parentElement.classList.contains("player")){
                             //place ship here during setup
-                            console.log("ship placed - probably");
                             //get ships list and place them one by one
                             if(placementValid){
                                 owner.getGameboard().placeShip(parseInt(gItem.coords[0]),parseInt(gItem.coords[1]),shipsArr.pop(),gameboard.parentElement.vertical);
@@ -124,7 +123,6 @@ function DOMHandler(gameboardSize){
                             }
                         }
                     }else{
-                        console.log(gItem)
                         if(gItem.parentElement.classList.contains("computer")){
                             if(!event.target.classList.contains("hitf") && !event.target.classList.contains("hits")){
                                 //here it should mark hit and record it on gameboard
@@ -177,8 +175,7 @@ function DOMHandler(gameboardSize){
         //create ships size with the look of grid
         for(let i = ships.length-1; i>=0;i--){
             let ship = document.createElement("div");
-            ship.classList.add("ship-display")
-            console.log(ships[i].getLength());
+            ship.classList.add("ship-display");
             for(let j = 0;j<ships[i].getLength();j++){
                 let shipPart = document.createElement("div");
                 shipPart.classList.add("ship-display-part");

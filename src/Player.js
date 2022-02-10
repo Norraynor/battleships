@@ -1,20 +1,22 @@
 //computer player functions
 //get its own gameboard
 
+const Gameboard = require("./Gameboard");
 const ship = require("./Ship");
 
 function Player(gameboard){
+    let playerGameboard = gameboard;
     let turn = false;
-    const ships = [];
+    let ships = [];
     function attack(x,y){
         //attack opponent or receive attack
         //place hit on the gameboard
         if(turn){
-            gameboard.placeHit(x,y);
+            playerGameboard.placeHit(x,y);
         }
     }
     function createShips(){
-        for(let i = 1;i<gameboard.getSize();i++){
+        for(let i = 1;i<playerGameboard.getSize();i++){
             ships.push(ship(i));
         }
     }
@@ -22,13 +24,10 @@ function Player(gameboard){
 
     function computerAttack(event){
         //select random from array of coordinates
-        randomCoords = gameboard.getEmptyHitCoords()[Math.floor(Math.random()*gameboard.getEmptyHitCoords().length)];
+        randomCoords = playerGameboard.getEmptyHitCoords()[Math.floor(Math.random()*playerGameboard.getEmptyHitCoords().length)];
         //do attack on random coords
         if(randomCoords){
-            gameboard.placeHit(randomCoords[0],randomCoords[1]);
-        }
-        else{
-            console.log("no more moves")
+            playerGameboard.placeHit(randomCoords[0],randomCoords[1]);
         }
         
         event.target.dispatchEvent(new Event('refresh',{
@@ -41,7 +40,7 @@ function Player(gameboard){
         }));*/
     }
     function getGameboard(){
-        return gameboard;
+        return playerGameboard;
     }
     function setTurn(newTurn){
         return turn = newTurn;
@@ -60,10 +59,10 @@ function Player(gameboard){
         //const size6 = ship(6);
 
         console.log(gameboard);
-        gameboard.placeShip(0,1,size2,false);
-        gameboard.placeShip(0,0,size3,true);
-        gameboard.placeShip(3,0,size4,false);
-        gameboard.placeShip(0,4,size5,true);
+        playerGameboard.placeShip(0,1,size2,false);
+        playerGameboard.placeShip(0,0,size3,true);
+        playerGameboard.placeShip(3,0,size4,false);
+        playerGameboard.placeShip(0,4,size5,true);
         //gameboard.placeShip(5,0,size6,false);
 
     }
@@ -73,19 +72,23 @@ function Player(gameboard){
         const size4 = ship(4);
         const size5 = ship(5);
         //const size6 = ship(6);
-        const arr=[size2,size3,size4,size5];
-
+        //const arr=[size2,size3,size4,size5];
+        const arr = getShips();
         while(arr.length>0){
-            randomCoords = gameboard.getEmptyShipCoords()[Math.floor(Math.random()*gameboard.getEmptyShipCoords().length)];
-            if(gameboard.placeShip(randomCoords[0],randomCoords[1],arr[arr.length-1],(Math.random()<0.5))){
-                console.log("successfully placed ship")
+            randomCoords = playerGameboard.getEmptyShipCoords()[Math.floor(Math.random()*playerGameboard.getEmptyShipCoords().length)];
+            if(playerGameboard.placeShip(randomCoords[0],randomCoords[1],arr[arr.length-1],(Math.random()<0.5))){
                 arr.pop();
-            }
-            else{
-                console.log("failed to place ship");
             }
         }
     }
+
+    function reset(){
+        const size = gameboard.getSize();
+        playerGameboard = Gameboard(size);
+        ships=[];
+        createShips();
+    }
+
     return {
         attack,
         computerAttack,
@@ -94,7 +97,8 @@ function Player(gameboard){
         templateShipsPopulate,
         getTurn,
         randomizeShipsPopulate,
-        getShips
+        getShips,
+        reset
     }
 }
 module.exports = Player;

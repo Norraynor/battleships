@@ -35,10 +35,8 @@ function Gameboard(x,y=null) {
     }
     function placeShip(a,b, ship=null, vertical = false){
         if(isPositionValid(a,b)){
-            console.log("position valid "+[a,b])
             if(vertical){
                 if(isPlacementValid(a,b,ship.getLength(),vertical)){
-                    console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
                     for(let i=0;i<ship.getLength();i++){
                         if(ship===null){
                             shipBoard[a+i][b]="ship";
@@ -52,7 +50,6 @@ function Gameboard(x,y=null) {
                 }
             }else{
                 if(isPlacementValid(a,b,ship.getLength(),vertical)){
-                    console.log("placement validated for ship: "+ship.getLength()+" orientation:"+vertical);
                     for(let i=0;i<ship.getLength();i++){
                         if(ship===null){
                             shipBoard[a][b+i]="ship";
@@ -66,7 +63,6 @@ function Gameboard(x,y=null) {
                 }
             }
         }else{
-            console.log("wrong coords"); 
             return false;
         }
     }
