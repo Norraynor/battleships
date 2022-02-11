@@ -96,3 +96,8 @@
 .hidden{
   display: none;
 }
+.sub-text{
+  color:gray;
+  font-style: italic;
+  font-size: .9rem;
+}

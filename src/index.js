@@ -21,6 +21,8 @@ function component() {
     const verticalBtn = document.createElement('button');
     const container = document.createElement("div");
     const mainText = document.createElement('div');
+    const subText = document.createElement('div');
+    subText.classList.add("sub-text");
     mainText.classList.add("main-text");
     container.classList.add("container");
     element.classList.add('hello');
@@ -46,11 +48,11 @@ function component() {
     }
     btn.addEventListener("click",(e)=>{
       setup = !setup;   
-      refresh(element,container,btn,verticalBtn,mainText);
+      refresh(element,container,btn,verticalBtn,mainText,subText);
     })
     verticalBtn.addEventListener("click",(e)=>{
       vertical=!vertical;
-      refresh(element,container,btn,verticalBtn,mainText);
+      refresh(element,container,btn,verticalBtn,mainText,subText);
     })
 
     //player.templateShipsPopulate(player.getGameboard().getShipGameboard());
@@ -60,7 +62,7 @@ function component() {
     element.appendChild(btn);
     element.appendChild(verticalBtn);
 
-    refresh(element,container,btn,verticalBtn,mainText);
+    refresh(element,container,btn,verticalBtn,mainText,subText);
     
     element.addEventListener('refresh',(e)=>{
       if(gameInProgress){
@@ -78,7 +80,7 @@ function component() {
         if(turn && !setup){
           player.computerAttack(e);
         }
-        refresh(element,container,btn,verticalBtn,mainText);
+        refresh(element,container,btn,verticalBtn,mainText,subText);
       }else{
         console.log("game finished");
       }
@@ -99,7 +101,7 @@ function component() {
       turn = !turn;       
   }
 
-  function refresh(element,container,btn=null,verticalBtn=null,mainText=null){
+  function refresh(element,container,btn=null,verticalBtn=null,mainText=null,subText=null){
     console.log("refreshing")
     if(element.contains(container)){
       element.removeChild(container);
@@ -140,6 +142,8 @@ function component() {
     container.appendChild(cHitGameboard);
     container.appendChild(DOMHandler(size).createAvailableShips(player));
     element.appendChild(mainText);
+    subText.innerText="To restart the game - refresh the page";
+    element.appendChild(subText);
     element.appendChild(btn);
     element.appendChild(verticalBtn);
     element.appendChild(container);
