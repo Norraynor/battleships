@@ -12,6 +12,7 @@ let turn = false; //false = player turn || true = computer turn
 let gameInProgress = true;
 let setup = true;
 let vertical = false;
+let winner = "";
 
 
 function component() {
@@ -27,6 +28,7 @@ function component() {
     // Lodash, currently included via a script, is required for this line to work
     if(setup){
       mainText.innerText = _.join(['Setup', 'Phase'], ' ');
+      btn.classList.remove("hidden");
       btn.innerText = 'End setup!';
       verticalBtn.classList.remove("hidden");
       
@@ -39,14 +41,11 @@ function component() {
       }
     }else{
       mainText.innerText = _.join(['Game', 'Phase'], ' ');
-      btn.innerText = 'Reset game';
-      verticalBtn.classList.add("hidden")
+      btn.classList.add("hidden");
+      verticalBtn.classList.add("hidden");
     }
     btn.addEventListener("click",(e)=>{
-      setup = !setup;    
-      if(setup===false){
-        reset();
-      }     
+      setup = !setup;   
       refresh(element,container,btn,verticalBtn,mainText);
     })
     verticalBtn.addEventListener("click",(e)=>{
@@ -67,9 +66,11 @@ function component() {
       if(gameInProgress){
         if(player.getGameboard().checkAllShipsSunk()){
           console.log("player lost");
+          winner = computer;
           gameInProgress=false;
         }else if(computer.getGameboard().checkAllShipsSunk()){
           console.log("computer lost");
+          winner = player;
           gameInProgress=false;
         }
         changeTurn();
@@ -91,15 +92,6 @@ function component() {
       }
     })*/
 
-    function reset(){
-      player.reset();
-      computer.reset();    
-      gameInProgress = true;
-      element.dispatchEvent(new Event('refresh',{
-        bubbles:true,
-        cancelable:true
-      }));  
-    }
     return element;
   }
 
@@ -114,6 +106,7 @@ function component() {
     }
     if(setup){
       mainText.innerText = _.join(['Setup', 'Phase'], ' ');
+      btn.classList.remove("hidden");
       btn.innerText = 'End setup!';
       verticalBtn.classList.remove("hidden");
       
@@ -126,8 +119,16 @@ function component() {
       }
       
     }else{
-      mainText.innerText = _.join(['Game', 'Phase'], ' ');
-      btn.innerText = 'Reset game!';
+      if(gameInProgress){
+        mainText.innerText = _.join(['Game', 'Phase'], ' ');
+      }else{
+        if(winner === player){
+          mainText.innerText = _.join(['Player', 'Win!'], ' ');
+        }else{
+          mainText.innerText = _.join(['Opponent', 'Win!'], ' ');
+        }
+      }
+      btn.classList.add("hidden");
       verticalBtn.classList.add("hidden")      
     }
     container.textContent="";
